@@ -50,6 +50,8 @@ def pinecone_conf(api_key, index_name):
         )
     return pc.Index(index_name)
 
+
+
 # dados pinecone
 pinecone_api_key = "2740c47c-96cd-4785-a951-cd620f7576c7"
 index_name = "univesp-pi3-rag-medicine"

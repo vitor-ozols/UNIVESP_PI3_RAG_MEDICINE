@@ -1,12 +1,13 @@
 import os
-
 from openai import OpenAI
 from pinecone import Pinecone, ServerlessSpec
 from dotenv import load_dotenv
 
 load_dotenv('../.env')
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
 def ada_embbed(chunk):
-    embbed_result = (OpenAI().
+    embbed_result = (client.
                      embeddings.
                      create(model="text-embedding-ada-002",
                             input=chunk))
@@ -29,29 +30,20 @@ def pinecone_question(vector, medicine):
 
 index = pinecone_conf()
 
-#question = input("Digite sua Mensagem: ")
-question = "qual o efeito colateral?"
+while True:
 
-vector = ada_embbed(question)
+    question = input("Digite sua Mensagem: ")
+    vector = ada_embbed(question)
+    rag = pinecone_question(vector=vector,
+                            medicine='losartana')
 
-pinecone_question(vector=vector,
-                  medicine='losartana')
+    prompt = open('prompts/question_1.txt', encoding='utf-8').read()
 
-prompt = """
-Seu nome é o Dr.Gebara, você é uma inteligência artificial que responde dúvidas sobre bulas de remédios.
-- Você é simpático e Educado;
-- Você responde de acordo com o texto que você encontra nas bulas dos remédios;
-"""
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "system", "content": prompt},
+                  {"role": "user", "content": question},
+                  {"role": "system", "content": rag}])
 
-completion = OpenAI.chat.completions.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "system", "content": "You are a helpful assistant."},
-    {"role": "user", "content": "Hello!"}
-  ]
-)
-
-print(completion.choices[0].message)
-
-
-
+    answer = completion.choices[0].message.content
+    print(answer)
