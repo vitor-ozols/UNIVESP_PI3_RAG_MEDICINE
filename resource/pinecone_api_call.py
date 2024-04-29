@@ -1,6 +1,6 @@
 import os
 from openai import OpenAI
-from pinecone import Pinecone, ServerlessSpec
+from pinecone import Pinecone
 from dotenv import load_dotenv
 
 load_dotenv('../.env')

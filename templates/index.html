@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNIVESP IA</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <img src="{{ url_for('static', filename='images/logo-univesp_simplificado_cor-negativo.png') }}" alt="logo" width="350" height="100">
+                <h1>Inteligência Farmacêutica</h1>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Página Inicial</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/chat-options">Converse com a nossa IA</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="container mt-4">
+    <section class="categorias">
+        <div class="container">
+            <h1>O Projeto</h1>
+            <form action="/form-html" method="POST">
+                Este projeto desenvolve uma plataforma web interativa projetada para descomplicar os termos técnicos encontrados nas bulas de medicamentos, auxiliando indivíduos com dificuldades de compreensão. Empregamos inteligência artificial avançada, incluindo tecnologias de Geração Aumentada de Recuperação (RAG), para facilitar o acesso a informações cruciais como posologia, interações medicamentosas e efeitos colaterais. A implementação integra a API da OpenAI e utiliza bancos de dados de vetores e serviços de cloud computing, assegurando uma operação segura e escalável. Além disso, a plataforma adere rigorosamente às práticas de acessibilidade digital, incorporando scripts em JavaScript para dinamizar a interação no frontend e sistemas de controle de versão para uma gestão eficaz do código.
+                <br><br>
+            <button type="button" onclick="window.location.href='{{ url_for('chat_options') }}'" class="btn btn-primary">Converse com a nossa IA</button>
+            </form>
+        </div>
+    </section>
+</main>
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Contato</h3>
+                <p>Entre em contato conosco através dos Emails: 2101355@aluno.univesp.br, 2106972@aluno.univesp.br 2110167@aluno.univesp.br</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Links Uteis</h3>
+                <ul>
+                    <li><a href="https://github.com/vitor-ozols/UNIVESP_PI3_RAG_MEDICINE">Github</a></li>
+                    <li><a href="/chat-options">Converse com a nossa IA</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h3>Sobre Nós</h3>
+                <p>Utilizamos inteligência artificial avançada e tecnologias de cloud computing para proporcionar informações claras e acessíveis sobre posologia, interações e efeitos colaterais, garantindo acessibilidade e segurança para todos os usuários.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+    $(document).ready(function() {
+        // Aplica a máscara de entrada para o campo de telefone
+        $('#telefone').inputmask("(99) 99999-9999");
+    });
+</script>
+</body>
+</html>
