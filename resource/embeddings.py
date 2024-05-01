@@ -58,12 +58,12 @@ index_name = "univesp-pi3-rag-medicine"
 index = pinecone_conf(pinecone_api_key, index_name)
 
 # Caminho para o arquivo PDF
-path = "pdf/bula_cloridrato_de_fluoxetina_10070_1299.pdf"
+path = "pdf/127728---neo-fidipina-10mg-neo-quimica-30-capsulas.pdf"
 text = pdf_to_text(path)
 chunks = process_text(text)
 for chunk in chunks:
     vector = ada_embbed(chunk)
     metadata = {"texto": chunk,
-                "medicine":'fluoxetina'}
+                "medicine":'neo-fidipina'}
     index.upsert(vectors=[(str(uuid.uuid4()), vector, metadata)])
     print(chunk)
