@@ -13,20 +13,18 @@ jobs:
     - name: Check out the repository
       uses: actions/checkout@v2
 
-    - name: Add SSH key
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts
 
     - name: Deploy to PythonAnywhere
       env:
         USERNAME: ${{ secrets.PYTHONANYWHERE_USERNAME }}
         API_TOKEN: ${{ secrets.PYTHONANYWHERE_API_TOKEN }}
       run: |
-        # Configurar o SSH
-        mkdir -p ~/.ssh
-        ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts
-
         # Fazer upload dos arquivos para PythonAnywhere usando rsync
         rsync -avz --delete-after --exclude '.git*' ./UNIVESP_PI3_RAG_MEDICINE/ ${{ secrets.PYTHONANYWHERE_USERNAME }}@ssh.pythonanywhere.com:~/UNIVESP_PI3_RAG_MEDICINE/
 
