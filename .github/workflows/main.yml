@@ -1,5 +1,5 @@
 name: CI/CD Pipeline
-# teste deploy 2
+
 on:
   push:
     branches:
@@ -13,23 +13,29 @@ jobs:
     - name: Check out the repository
       uses: actions/checkout@v2
 
-    - name: Add SSH key and deploy
-      uses: appleboy/ssh-action@master
+    - name: Upload SSH Key
+      id: upload-ssh-key
+      uses: actions/upload-secret-action@v1
       with:
-        host: ssh.pythonanywhere.com
-        username: ${{ secrets.PYTHONANYWHERE_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          # Configurar o SSH
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts
+        name: SSH_PRIVATE_KEY
+        value: ${{ secrets.SSH_PRIVATE_KEY }}
 
-          # Fazer upload dos arquivos para PythonAnywhere usando rsync
-          rsync -avz --delete-after --exclude '.git*' ./UNIVESP_PI3_RAG_MEDICINE/ ${{ secrets.PYTHONANYWHERE_USERNAME }}@ssh.pythonanywhere.com:~/UNIVESP_PI3_RAG_MEDICINE/
+    - name: Add SSH key and deploy
+      env:
+        SSH_PRIVATE_KEY: ${{ steps.upload-ssh-key.outputs.SSH_PRIVATE_KEY }}
+      run: |
+        # Configurar o SSH
+        mkdir -p ~/.ssh
+        echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts
 
-          # Reiniciar a aplicação no PythonAnywhere
-          ssh ${{ secrets.PYTHONANYWHERE_USERNAME }}@ssh.pythonanywhere.com << EOF
-            cd UNIVESP_PI3_RAG_MEDICINE
-            pip install -r requirements.txt
-            touch reload
-          EOF
+        # Fazer upload dos arquivos para PythonAnywhere usando rsync
+        rsync -avz --delete-after --exclude '.git*' ./UNIVESP_PI3_RAG_MEDICINE/ ${{ secrets.PYTHONANYWHERE_USERNAME }}@ssh.pythonanywhere.com:~/UNIVESP_PI3_RAG_MEDICINE/
+
+        # Reiniciar a aplicação no PythonAnywhere
+        ssh -i ~/.ssh/id_rsa ${{ secrets.PYTHONANYWHERE_USERNAME }}@ssh.pythonanywhere.com << EOF
+          cd UNIVESP_PI3_RAG_MEDICINE
+          pip install -r requirements.txt
+          touch reload
+        EOF
