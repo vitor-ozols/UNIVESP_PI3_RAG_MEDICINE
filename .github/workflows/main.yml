@@ -27,7 +27,7 @@ jobs:
         PASSWORD: ${{ secrets.PYTHONANYWHERE_PASSWORD }}
       run: |
         # Fazer upload dos arquivos para PythonAnywhere usando rsync com sshpass
-        sshpass -p "${{ secrets.PYTHONANYWHERE_PASSWORD }}" rsync -avz --delete-after --exclude '.git*' ./UNIVESP_PI3_RAG_MEDICINE/ ${{ secrets.PYTHONANYWHERE_USERNAME }}@ssh.pythonanywhere.com:~/UNIVESP_PI3_RAG_MEDICINE/
+        sshpass -p "${{ secrets.PYTHONANYWHERE_PASSWORD }}" rsync -avz --delete-after --exclude '.git*' ./ ${{ secrets.PYTHONANYWHERE_USERNAME }}@ssh.pythonanywhere.com:~/UNIVESP_PI3_RAG_MEDICINE/
 
         # Reiniciar a aplicação no PythonAnywhere
         sshpass -p "${{ secrets.PYTHONANYWHERE_PASSWORD }}" ssh ${{ secrets.PYTHONANYWHERE_USERNAME }}@ssh.pythonanywhere.com << EOF
