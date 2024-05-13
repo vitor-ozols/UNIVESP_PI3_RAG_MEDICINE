@@ -3,7 +3,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from pinecone import Pinecone, ServerlessSpec
 from openai import OpenAI
 import uuid
-
+import os
 from dotenv import load_dotenv
 
 load_dotenv('../.env')
@@ -53,8 +53,8 @@ def pinecone_conf(api_key, index_name):
 
 
 # dados pinecone
-pinecone_api_key = "2740c47c-96cd-4785-a951-cd620f7576c7"
-index_name = "univesp-pi3-rag-medicine"
+pinecone_api_key = os.getenv('PINECONE_API_KEY')
+index_name = os.getenv('PINECONE_INDEX_NAME')
 index = pinecone_conf(pinecone_api_key, index_name)
 
 # Caminho para o arquivo PDF
