@@ -3,7 +3,7 @@ import os
 from openai import OpenAI
 from pinecone import Pinecone
 from dotenv import load_dotenv
-# teste deploy
+# teste deploy 2
 
 load_dotenv('.env')
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
