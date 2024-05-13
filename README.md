@@ -7,7 +7,7 @@ Este projeto desenvolve uma plataforma web interativa projetada para descomplica
 ## Diagrama:
 
 
-[Diagrama de Arquitetura](resource/misc/Fluxo Chat.webp "Diagrama do Projeto")
+![Diagrama de Arquitetura](https://raw.githubusercontent.com/vitor-ozols/UNIVESP_PI3_RAG_MEDICINE/main/resource/misc/Fluxo%20Chat.webp "Diagrama do Projeto")
 
 
 ## Implantação:
