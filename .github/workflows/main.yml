@@ -19,12 +19,10 @@ jobs:
         API_TOKEN: ${{ secrets.PYTHONANYWHERE_API_TOKEN }}
       run: |
         # Fazer upload dos arquivos para PythonAnywhere usando rsync
-        rsync -avz --delete-after --exclude '.git*' ./UNIVESP_PI3_RAG_MEDICINE/ $USERNAME@ssh.pythonanywhere.com:~/UNIVESP_PI3_RAG_MEDICINE/
+        rsync -avz --delete-after --exclude '.git*' ./UNIVESP_PI3_RAG_MEDICINE/ univesp1rag@ssh.pythonanywhere.com:~/UNIVESP_PI3_RAG_MEDICINE/
 
         # Reiniciar a aplicação no PythonAnywhere
-        ssh $USERNAME@ssh.pythonanywhere.com << EOF
-          source virtualenvwrapper.sh
-          workon your_virtualenv
+        ssh univesp1rag@ssh.pythonanywhere.com << EOF
           cd UNIVESP_PI3_RAG_MEDICINE
           pip install -r requirements.txt
           touch reload
