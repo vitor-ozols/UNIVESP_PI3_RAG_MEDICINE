@@ -1,5 +1,5 @@
 name: CI/CD Pipeline
-# teste deploy
+
 on:
   push:
     branches:
@@ -12,11 +12,6 @@ jobs:
     steps:
     - name: Check out the repository
       uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'  # Ajuste conforme a versão do Python que você está usando
 
     - name: Add SSH key
       uses: webfactory/ssh-agent@v0.5.3
